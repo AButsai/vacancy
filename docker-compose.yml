@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  vacancy:
+    container_name: vacancy
+    image: postgres:latest
+    env_file:
+      - ./.env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - ${DOCKER_VALUMES}
+    ports:
+      - ${POSTGRES_HOST}:${POSTGRES_PORT}:5432
+    networks:
+      - vacancy
+    restart: unless-stopped
+
+  vacancy_pgadmin:
+    container_name: vacancy_pgadmin
+    image: dpage/pgadmin4
+    env_file:
+      - ./.env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: ${PGADMIN_CONFIG_SERVER_MODE}
+    volumes:
+      - ${DOCKER_VALUMES}
+    ports:
+      - ${PGADMIN_DEFAULT_HOST}:${PGADMIN_DEFAULT_PORT}:80
+    networks:
+      - vacancy
+    restart: unless-stopped
+
+networks:
+  vacancy:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
