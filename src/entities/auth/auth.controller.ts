@@ -21,10 +21,15 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { AuthResponseDto, LoginDto, LogoutResponseDto, RegisterDto } from './dto/auth.dto'
-import { MyRequest } from '@src/types/request.interface'
-import { JwtAuthGuard } from '@guards/jwtGuard/jwt-auth.guard'
-import { Response } from 'express'
+import {
+  AuthResponseDto,
+  LoginDto,
+  LogoutResponseDto,
+  RegisterDto,
+} from './dto/auth.dto';
+import { MyRequest } from '@src/types/request.interface';
+import { JwtAuthGuard } from '@guards/jwtGuard/jwt-auth.guard';
+import { Response } from 'express';
 
 @ApiTags('Authentication')
 @Controller('api/auth')
@@ -32,7 +37,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   // Register
-  @Post('register')
+  @Post('/register')
   @ApiOperation({ summary: 'Register a new user' })
   @ApiResponse({ status: 201, type: AuthResponseDto })
   async register(@Body(ValidationPipe) registerUserDto: RegisterDto) {
@@ -50,7 +55,7 @@ export class AuthController {
       'Too many failed login attempts. Please try again after 15 minutes.',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @Post('login')
+  @Post('/login')
   async login(@Body() loginDto: LoginDto, @Req() req: MyRequest) {
     return await this.authService.login(loginDto, req.ip);
   }
@@ -71,7 +76,7 @@ export class AuthController {
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
   @UseGuards(JwtAuthGuard)
-  @Get('logout')
+  @Get('/logout')
   public async logout(@Req() req: MyRequest, @Res() res: Response) {
     await this.authService.logout(req.user.id);
     res.clearCookie('refreshToken');
