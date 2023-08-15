@@ -5,17 +5,14 @@ import { NextFunction, Response } from 'express';
 @Injectable()
 export class CorsMiddleware implements NestMiddleware {
   use(req: MyRequest, res: Response, next: NextFunction) {
-    res.header(
-      'Access-Control-Allow-Origin',
-      process.env.ACCESS_CONTROL_ALLOW_ORIGIN,
-    );
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header(
       'Access-Control-Allow-Methods',
       'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     );
     res.header(
       'Access-Control-Allow-Headers',
-      'Content-Type, Accept, Authorization, token-type',
+      'Content-Type, Accept, Authorization',
     );
     res.header('Access-Control-Allow-Credentials', 'true');
 
