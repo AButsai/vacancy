@@ -7,7 +7,7 @@ import { ICoverLetter, IProjects, IResume } from './types/data.interfases';
 
 @Entity('users')
 export class UserEntity extends MyBaseEntity {
-  @ApiProperty({ example: 'email', description: 'User  email' })
+  @ApiProperty({ example: 'user@mail.com', description: 'User  email' })
   @Column({ name: 'email', type: 'varchar' })
   @Unique(['email'])
   public email: string;
@@ -40,21 +40,33 @@ export class UserEntity extends MyBaseEntity {
   public gitLink: string;
 
   @ApiProperty({
-    example: ['My resume', 'https://drive.google.com/drive/my-drive/resume'],
+    example: [
+      {
+        name: 'My resume',
+        link: 'https://drive.google.com/drive/my-drive/resume',
+      },
+    ],
     description: 'Resume',
   })
   @Column({ name: 'resume', type: 'jsonb', array: true, nullable: true })
   public resume: IResume[];
 
   @ApiProperty({
-    example: ['My project', 'Link to GitHub', 'Link to deploy', 'Description'],
+    example: [
+      {
+        name: 'My project',
+        gitLink: 'Link to GitHub',
+        deployLink: 'Link to deploy',
+        description: 'Description',
+      },
+    ],
     description: 'Projects',
   })
   @Column({ name: 'projects', type: 'jsonb', array: true, nullable: true })
   public projects: IProjects[];
 
   @ApiProperty({
-    example: ['name', 'Text'],
+    example: [{ name: 'name', text: 'Text' }],
     description: 'Cover letter',
   })
   @Column({ name: 'cover_letter', type: 'jsonb', array: true, nullable: true })

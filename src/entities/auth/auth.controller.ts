@@ -1,10 +1,10 @@
+import { JwtAuthTokenTypeGuard } from '@guards/jwtGuard/jwt-auth-token-type.guard';
 import {
   Body,
   Controller,
   Get,
   Post,
   Req,
-  Res,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
@@ -20,6 +20,7 @@ import {
   ApiTooManyRequestsResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { MyRequest } from '@src/types/request.interface';
 import { AuthService } from './auth.service';
 import {
   AuthResponseDto,
@@ -27,9 +28,6 @@ import {
   LogoutResponseDto,
   RegisterDto,
 } from './dto/auth.dto';
-import { MyRequest } from '@src/types/request.interface';
-import { JwtAuthGuard } from '@guards/jwtGuard/jwt-auth.guard';
-import { Response } from 'express';
 
 @ApiTags('Authentication')
 @Controller('api/auth')
@@ -65,8 +63,12 @@ export class AuthController {
   @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization',
-    description: 'Bearer token',
+    description: 'token-type: access_token',
     required: true,
+    schema: {
+      type: 'string',
+      format: 'Bearer YOUR_TOKEN_HERE',
+    },
   })
   @ApiOkResponse({ type: LogoutResponseDto })
   @ApiNotFoundResponse({ description: 'Not found' })
@@ -75,11 +77,10 @@ export class AuthController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthTokenTypeGuard)
   @Get('/logout')
-  public async logout(@Req() req: MyRequest, @Res() res: Response) {
+  public async logout(@Req() req: MyRequest) {
     await this.authService.logout(req.user.id);
-    res.clearCookie('refreshToken');
-    res.send({ message: 'Disconnect...' });
+    return { message: 'Disconnect...' };
   }
 }
