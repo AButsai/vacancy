@@ -1,15 +1,71 @@
-import { Controller, Get } from '@nestjs/common';
+import { JwtAuthTokenTypeGuard } from '@guards/jwtGuard/jwt-auth-token-type.guard';
+import { Body, Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiHeader,
+  ApiInternalServerErrorResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+  ApiUnauthorizedResponse,
+} from '@nestjs/swagger';
+import { MyRequest } from '@src/types/request.interface';
+import { UpdateUserDto, UserResponseDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
+@ApiTags('Users')
 @Controller('api/users')
 export class UserController {
-  private readonly expirationDate: Date;
-  constructor(private readonly userService: UserService) {
-    this.expirationDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  constructor(private readonly userService: UserService) {}
+
+  // Get current user
+  @ApiOperation({ summary: 'Get current user' })
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'token-type: access_token',
+    required: true,
+    schema: {
+      type: 'string',
+      format: 'Bearer YOUR_TOKEN_HERE',
+    },
+  })
+  @ApiOkResponse({ type: UserResponseDto })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiUnauthorizedResponse({
+    description:
+      'Not authorized jwt expired || Not authorized Invalid token type',
+  })
+  @ApiInternalServerErrorResponse({ description: 'Server error' })
+  @UseGuards(JwtAuthTokenTypeGuard)
+  @Get('current')
+  public async current(@Req() req: MyRequest) {
+    return await this.userService.current(req.user.id);
   }
 
-  @Get('current')
-  public async current() {
-    return { message: 'current user' };
+  // Update user
+  @ApiOperation({ summary: 'Update user' })
+  @ApiBearerAuth()
+  @ApiHeader({
+    name: 'Authorization',
+    description: 'token-type: access_token',
+    required: true,
+    schema: {
+      type: 'string',
+      format: 'Bearer YOUR_TOKEN_HERE',
+    },
+  })
+  @ApiOkResponse({ type: UserResponseDto })
+  @ApiNotFoundResponse({ description: 'Not found' })
+  @ApiUnauthorizedResponse({
+    description:
+      'Not authorized jwt expired || Not authorized Invalid token type',
+  })
+  @ApiInternalServerErrorResponse({ description: 'Server error' })
+  @UseGuards(JwtAuthTokenTypeGuard)
+  @Patch('update')
+  public async update(@Body() body: UpdateUserDto, @Req() req: MyRequest) {
+    return await this.userService.update(req.user.id, body);
   }
 }

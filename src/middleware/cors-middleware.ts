@@ -12,7 +12,7 @@ export class CorsMiddleware implements NestMiddleware {
     );
     res.header(
       'Access-Control-Allow-Headers',
-      'Content-Type, Accept, Authorization',
+      'Content-Type, Accept, Authorization, token-type',
     );
     res.header('Access-Control-Allow-Credentials', 'true');
 
