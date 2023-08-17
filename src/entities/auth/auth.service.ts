@@ -10,6 +10,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as urlPath from '@src/constants/urlPath';
 import * as bcryptjs from 'bcryptjs';
 import { Repository } from 'typeorm';
 import { v4 } from 'uuid';
@@ -39,7 +40,7 @@ export class AuthService {
     await this.mailService.sendEmailHandler(
       email,
       verifyToken,
-      'mail/verify-email',
+      urlPath.VERIFY_EMAIL,
       username,
     );
 
