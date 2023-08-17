@@ -1,3 +1,4 @@
+import { VacancyDto } from '@entities/vacancy/dto/vacancy.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import * as regex from '@utils/regex-expressions';
 import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
@@ -152,4 +153,7 @@ export class UserResponseDto {
 
   @ApiProperty({ example: false, description: 'Is verified user' })
   verified: boolean;
+
+  @ApiProperty({ type: VacancyDto, isArray: true })
+  vacancy: VacancyDto[];
 }
