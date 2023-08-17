@@ -9,6 +9,7 @@ import { UploadModule } from './entities/upload/upload.module';
 import { UserModule } from './entities/user/user.module';
 import { CorsMiddleware } from './middleware/cors-middleware';
 import { VacancyModule } from './entities/vacancy/vacancy.module';
+import { GoogleModule } from './entities/google/google.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { VacancyModule } from './entities/vacancy/vacancy.module';
     AttemptsModule,
     MailModule,
     VacancyModule,
+    GoogleModule,
   ],
   controllers: [],
   providers: [],
