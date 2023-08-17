@@ -1,8 +1,9 @@
+import { VacancyEntity } from '@entities/vacancy/vacancy.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { MyBaseEntity } from '@utils/base.entity';
 import * as regex from '@utils/regex-expressions';
 import { Matches, MinLength } from 'class-validator';
-import { Column, Entity, Unique } from 'typeorm';
+import { Column, Entity, OneToMany, Unique } from 'typeorm';
 import { ICoverLetter, IProjects, IResume } from './types/data.interfases';
 
 @Entity('users')
@@ -83,4 +84,9 @@ export class UserEntity extends MyBaseEntity {
   @ApiProperty({ example: 'Verify token', description: 'Verify token' })
   @Column({ name: 'verify_token', type: 'varchar', default: null })
   public verifyToken: string;
+
+  @OneToMany(() => VacancyEntity, (vacancy) => vacancy.user, {
+    onDelete: 'CASCADE',
+  })
+  public vacancy: VacancyEntity[];
 }

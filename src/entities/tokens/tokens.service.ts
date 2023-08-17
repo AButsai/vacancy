@@ -16,7 +16,7 @@ export class TokensService {
   public async generateTokens(user: UserEntity | TUser) {
     const payload = { email: user.email, id: user.id };
     const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '5m',
+      expiresIn: '1d',
       secret: process.env.ACCESS_TOKEN_PRIVATE_KEY || 'SUCCESS_TOKEN',
     });
 
