@@ -10,6 +10,7 @@ import { UserModule } from './entities/user/user.module';
 import { CorsMiddleware } from './middleware/cors-middleware';
 import { VacancyModule } from './entities/vacancy/vacancy.module';
 import { GoogleModule } from './entities/google/google.module';
+import { PasswordModule } from './entities/password/password.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { GoogleModule } from './entities/google/google.module';
     MailModule,
     VacancyModule,
     GoogleModule,
+    PasswordModule,
   ],
   controllers: [],
   providers: [],

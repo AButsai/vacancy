@@ -11,6 +11,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import * as urlPath from '@src/constants/urlPath';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -68,8 +69,11 @@ export class MailService {
   }
 
   // Resend email
-  public async resendEmail(email: string, path = 'mail/verify-email') {
+  public async resendEmail(email: string, path = urlPath.VERIFY_EMAIL) {
     const user = await this.userRepository.findOne({ where: { email } });
+    if (!user.verifyToken) {
+      throw new BadRequestException('Email verified');
+    }
     const linkForEmail = this.generateUrlForEmailSend(
       email,
       user.verifyToken,
