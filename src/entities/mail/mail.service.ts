@@ -56,7 +56,6 @@ export class MailService {
   public async verifyEmail(verifyToken: string) {
     const user = await this.userRepository.findOne({
       where: { verifyToken },
-      relations: [],
     });
     if (!user) {
       throw new BadRequestException('Email verified');
