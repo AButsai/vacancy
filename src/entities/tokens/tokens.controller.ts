@@ -1,4 +1,4 @@
-import { JwtAuthTokenTypeGuard } from '@guards/jwtGuard/jwt-auth-token-type.guard';
+import { JwtAuthRefreshGuard } from '@guards/jwtGuard/jwt-refresh.guard';
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import {
   ApiCookieAuth,
@@ -38,7 +38,7 @@ export class TokensController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthRefreshGuard)
   @Get('refresh-token')
   public async refresh(@Req() req: MyRequest) {
     return await this.tokensService.generateTokens(req.user);

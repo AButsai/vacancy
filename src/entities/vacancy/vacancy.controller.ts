@@ -1,4 +1,4 @@
-import { JwtAuthTokenTypeGuard } from '@guards/jwtGuard/jwt-auth-token-type.guard';
+import { JwtAuthGuard } from '@guards/jwtGuard/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -58,7 +58,7 @@ export class VacancyController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Post()
   public async create(@Req() req: MyRequest, @Body() body: VacancyDto) {
     return await this.vacancyService.create(req.user.id, body);
@@ -113,7 +113,7 @@ export class VacancyController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Get()
   public async getAllVacancy(
     @Req() req: MyRequest,
@@ -181,7 +181,7 @@ export class VacancyController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('archive')
   public async getIsArchive(
     @Req() req: MyRequest,
@@ -219,7 +219,7 @@ export class VacancyController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   public async update(@Param('id') id: string, @Body() body: VacancyDto) {
     return this.vacancyService.update(id, body);
@@ -244,7 +244,7 @@ export class VacancyController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   public async delete(@Param('id') id: string) {
     await this.vacancyService.delete(id);

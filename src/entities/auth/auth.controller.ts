@@ -1,4 +1,4 @@
-import { JwtAuthTokenTypeGuard } from '@guards/jwtGuard/jwt-auth-token-type.guard';
+import { JwtAuthGuard } from '@guards/jwtGuard/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -77,7 +77,7 @@ export class AuthController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('/logout')
   public async logout(@Req() req: MyRequest) {
     await this.authService.logout(req.user.id);
