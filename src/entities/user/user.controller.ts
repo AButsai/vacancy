@@ -1,4 +1,4 @@
-import { JwtAuthTokenTypeGuard } from '@guards/jwtGuard/jwt-auth-token-type.guard';
+import { JwtAuthGuard } from '@guards/jwtGuard/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -47,7 +47,7 @@ export class UserController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('current')
   public async current(@Req() req: MyRequest) {
     return await this.userService.current(req.user.id);
@@ -72,7 +72,7 @@ export class UserController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch('update')
   public async update(@Body() body: UpdateUserDto, @Req() req: MyRequest) {
     return await this.userService.update(req.user.id, body);
@@ -97,7 +97,7 @@ export class UserController {
       'Not authorized jwt expired || Not authorized Invalid token type',
   })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete('delete')
   public async delete(@Req() req: MyRequest) {
     await this.userService.delete(req.user.id);

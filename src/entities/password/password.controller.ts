@@ -1,4 +1,4 @@
-import { JwtAuthTokenTypeGuard } from '@guards/jwtGuard/jwt-auth-token-type.guard';
+import { JwtAuthGuard } from '@guards/jwtGuard/jwt-auth.guard';
 import {
   Body,
   Controller,
@@ -91,7 +91,7 @@ export class PasswordController {
   })
   @ApiNotFoundResponse({ description: 'Not found' })
   @ApiInternalServerErrorResponse({ description: 'Server error' })
-  @UseGuards(JwtAuthTokenTypeGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch('change')
   async changePassword(
     @Body() changePasswordDto: PasswordsBodyDto,
