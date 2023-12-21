@@ -22,7 +22,7 @@ export class TokensService {
 
     const refreshToken = this.jwtService.sign(payload, {
       expiresIn: '30d',
-      secret: process.env.ACCESS_TOKEN_PRIVATE_KEY || 'SUCCESS_TOKEN',
+      secret: process.env.REFRESH_TOKEN_PRIVATE_KEY || 'REFRESH_TOKEN',
     });
 
     await this.userRepository.update(payload.id, { refreshToken });
