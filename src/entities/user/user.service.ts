@@ -23,7 +23,12 @@ export class UserService {
         id,
       },
     });
-    Object.assign(user, body);
+    Object.assign(user, {
+      ...body,
+      resume: JSON.stringify(body.resume),
+      projects: JSON.stringify(body.projects),
+      coverLetter: JSON.stringify(body.coverLetter),
+    });
     await this.userRepository.save(user);
     return await this.getUser(user.id);
   }
@@ -47,6 +52,11 @@ export class UserService {
     delete user.updateAt;
     delete user.refreshToken;
     delete user.verifyToken;
-    return user;
+    return {
+      ...user,
+      resume: JSON.parse(user.resume),
+      projects: JSON.parse(user.projects),
+      coverLetter: JSON.parse(user.coverLetter),
+    };
   }
 }

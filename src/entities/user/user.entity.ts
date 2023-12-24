@@ -4,7 +4,6 @@ import { MyBaseEntity } from '@utils/base.entity';
 import * as regex from '@utils/regex-expressions';
 import { Matches, MinLength } from 'class-validator';
 import { Column, Entity, OneToMany, Unique } from 'typeorm';
-import { ICoverLetter, IProjects, IResume } from './types/data.interfases';
 
 @Entity('users')
 export class UserEntity extends MyBaseEntity {
@@ -49,8 +48,8 @@ export class UserEntity extends MyBaseEntity {
     ],
     description: 'Resume',
   })
-  @Column({ name: 'resume', type: 'jsonb', array: true, nullable: true })
-  public resume: IResume[];
+  @Column({ name: 'resume', type: 'jsonb', nullable: true })
+  public resume: string;
 
   @ApiProperty({
     example: [
@@ -63,15 +62,15 @@ export class UserEntity extends MyBaseEntity {
     ],
     description: 'Projects',
   })
-  @Column({ name: 'projects', type: 'jsonb', array: true, nullable: true })
-  public projects: IProjects[];
+  @Column({ name: 'projects', type: 'jsonb', nullable: true })
+  public projects: string;
 
   @ApiProperty({
     example: [{ name: 'name', text: 'Text' }],
     description: 'Cover letter',
   })
-  @Column({ name: 'cover_letter', type: 'jsonb', array: true, nullable: true })
-  public coverLetter: ICoverLetter[];
+  @Column({ name: 'cover_letter', type: 'jsonb', nullable: true })
+  public coverLetter: string;
 
   @ApiProperty({ example: 'Refresh token', description: ' Refresh  token' })
   @Column({ name: 'refresh_token', type: 'varchar', nullable: true })
